@@ -5,6 +5,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///musicas.sqlite3'
 db = SQLAlchemy(app)
 
+
 class Musica(db.Model):
    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
    nome = db.Column(db.String(150), nullable=False)
@@ -16,15 +17,18 @@ class Musica(db.Model):
       self.artista = artista
       self.link = link
 
+
 @app.route('/')
 def index():
    musicas = Musica.query.all()
    return render_template('index.html', musicas=musicas)
 
+
 @app.route('/<id>')
 def musica_pelo_id(id):
    musica = Musica.query.get(id)
    return render_template('index.html', musica=musica)
+
 
 @app.route('/new', methods=['GET', 'POST'])
 def new():
@@ -38,6 +42,7 @@ def new():
       db.session.commit()
       return redirect('/#playlist')
    return render_template('new.html')
+
 
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit(id):
